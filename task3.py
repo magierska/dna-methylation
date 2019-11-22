@@ -13,7 +13,7 @@ def read_areas():
                 name = split_line[0]
                 if name not in result:
                     result[name] = []
-                result[name].append((Area(int(split_line[1]), int(split_line[2]), area)))
+                result[name].append((Area(int(split_line[1]), int(split_line[2]) - 1, area)))
     for key in result:
         result[key] = sorted(result[key], key=lambda x: x.start)
     return result

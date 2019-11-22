@@ -34,13 +34,13 @@ def next_area_beginning(area):
 
 
 def find_ending(last_island_end, size):
-    shore = next_area_ending(Area(last_island_end + 1, size))
+    shore = next_area_ending(Area(last_island_end + 1, size - 1))
     if shore.end == size:
         return ChromosomeAreas(shores=[shore])
-    shelf = next_area_ending(Area(shore.end + 1, size))
+    shelf = next_area_ending(Area(shore.end + 1, size - 1))
     if shelf.end == size:
         return ChromosomeAreas(shores=[shore], shelves=[shelf])
-    return ChromosomeAreas(shores=[shore], shelves=[shelf], seas=[Area(shore.end + 1, size)])
+    return ChromosomeAreas(shores=[shore], shelves=[shelf], seas=[Area(shelf.end + 1, size - 1)])
 
 
 def next_area_ending(area):
@@ -67,7 +67,7 @@ def next_areas(area):
 
 def write_to_file(file, areas, chromosome):
     for area in areas:
-        file.write('%s\t%d\t%d\n' % (chromosome, area.start, area.end))
+        file.write('%s\t%d\t%d\n' % (chromosome, area.start, area.end + 1))
 
 
 def task1():
