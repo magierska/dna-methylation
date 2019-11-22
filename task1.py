@@ -4,7 +4,7 @@ from ChromosomeAreas import ChromosomeAreas
 
 AREAS = ['islands', 'shores', 'shelves', 'seas']
 BORDER = 2000
-BED_FIRST_INDEX = 1
+BED_FIRST_INDEX = 0
 
 
 def read_sizes():
@@ -79,7 +79,7 @@ def task1():
             if validate_regex(name):
                 if name not in chromosomes:
                     chromosomes[name] = ChromosomeAreas()
-                chromosomes[name].areas['islands'].append(Area(int(split_line[2]), int(split_line[3])))
+                chromosomes[name].areas['islands'].append(Area(int(split_line[2]), int(split_line[3]) - 1))
 
     sizes = read_sizes()
 

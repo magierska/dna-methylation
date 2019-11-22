@@ -36,7 +36,7 @@ def task3():
             if validate_regex(name):
                 if name not in methylations:
                     methylations[name] = []
-                methylations[name].append(Area(int(split_line[1]), int(split_line[2])))
+                methylations[name].append(Area(int(split_line[1]), int(split_line[2]) - 1))
 
     areas = read_areas()
     counter = {}

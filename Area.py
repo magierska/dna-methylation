@@ -15,7 +15,7 @@ class Area:
         return self.end - self.start + 1
 
     def middle(self):
-        return self.start + math.floor((self.end - self.start) / 2)
+        return self.start + math.ceil((self.end - self.start) / 2)
 
     def contains(self, value):
         if self.start <= value <= self.start + 1 or self.end - 1 <= value <= self.end:
