@@ -18,56 +18,56 @@ def read_sizes():
 
 
 def find_beginning(first_island_start):
-    shore = next_area_beginning(Area(BED_FIRST_INDEX, first_island_start - 1))
+    shore = next_area_beginning(Area(BED_FIRST_INDEX, first_island_start))
     if shore.start == BED_FIRST_INDEX:
         return ChromosomeAreas(shores=[shore])
-    shelf = next_area_beginning(Area(BED_FIRST_INDEX, shore.start - 1))
+    shelf = next_area_beginning(Area(BED_FIRST_INDEX, shore.start))
     if shelf.start == BED_FIRST_INDEX:
         return ChromosomeAreas(shores=[shore], shelves=[shelf])
-    return ChromosomeAreas(shores=[shore], shelves=[shelf], seas=[Area(BED_FIRST_INDEX, shelf.start - 1)])
+    return ChromosomeAreas(shores=[shore], shelves=[shelf], seas=[Area(BED_FIRST_INDEX, shelf.start)])
 
 
 def next_area_beginning(area):
     if len(area) < BORDER:
         return area
-    return Area(area.end - BORDER + 1, area.end)
+    return Area(area.end - BORDER, area.end)
 
 
 def find_ending(last_island_end, size):
-    shore = next_area_ending(Area(last_island_end + 1, size - 1))
+    shore = next_area_ending(Area(last_island_end, size))
     if shore.end == size:
         return ChromosomeAreas(shores=[shore])
-    shelf = next_area_ending(Area(shore.end + 1, size - 1))
+    shelf = next_area_ending(Area(shore.end, size))
     if shelf.end == size:
         return ChromosomeAreas(shores=[shore], shelves=[shelf])
-    return ChromosomeAreas(shores=[shore], shelves=[shelf], seas=[Area(shelf.end + 1, size - 1)])
+    return ChromosomeAreas(shores=[shore], shelves=[shelf], seas=[Area(shelf.end, size)])
 
 
 def next_area_ending(area):
     if len(area) < BORDER:
         return area
-    return Area(area.start, area.start + BORDER - 1)
+    return Area(area.start, area.start + BORDER)
 
 
 def find(between_islands):
     shores = next_areas(between_islands)
     if len(shores) == 1:
         return ChromosomeAreas(shores=shores)
-    shelves = next_areas(Area(shores[0].end + 1, shores[1].start - 1))
+    shelves = next_areas(Area(shores[0].end, shores[1].start))
     if len(shelves) == 1:
         return ChromosomeAreas(shores=shores, shelves=shelves)
-    return ChromosomeAreas(shores=shores, shelves=shelves, seas=[Area(shelves[0].end + 1, shelves[1].start - 1)])
+    return ChromosomeAreas(shores=shores, shelves=shelves, seas=[Area(shelves[0].end, shelves[1].start)])
 
 
 def next_areas(area):
     if len(area) <= 2 * BORDER:
         return [area]
-    return [Area(area.start, area.start + BORDER - 1), Area(area.end - BORDER + 1, area.end)]
+    return [Area(area.start, area.start + BORDER), Area(area.end - BORDER, area.end)]
 
 
 def write_to_file(file, areas, chromosome):
     for area in areas:
-        file.write('%s\t%d\t%d\n' % (chromosome, area.start, area.end + 1))
+        file.write('%s\t%d\t%d\n' % (chromosome, area.start, area.end))
 
 
 def task1():
@@ -79,7 +79,7 @@ def task1():
             if validate_regex(name):
                 if name not in chromosomes:
                     chromosomes[name] = ChromosomeAreas()
-                chromosomes[name].areas['islands'].append(Area(int(split_line[2]), int(split_line[3]) - 1))
+                chromosomes[name].areas['islands'].append(Area(int(split_line[2]), int(split_line[3])))
 
     sizes = read_sizes()
 
@@ -91,7 +91,7 @@ def task1():
         beginning = find_beginning(islands[0].start)
         chromosomes[key].add(beginning)
         for i in range(0, len(islands) - 1):
-            areas = find(Area(islands[i].end + 1, islands[i + 1].start - 1))
+            areas = find(Area(islands[i].end, islands[i + 1].start))
             chromosomes[key].add(areas)
         ending = find_ending(islands[len(islands) - 1].end, sizes[key])
         chromosomes[key].add(ending)
